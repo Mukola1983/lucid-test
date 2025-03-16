@@ -14,14 +14,16 @@ const ValueBox = ({values,optionList }) =>{
     const [newValue, setNewValue] = useState(null)
     const [result, setResult] = useState(0)
 
-    useEffect(()=>{
-        console.log(mainValue, 'mainValue')
-    },[mainValue])
 
     useEffect(()=>{
         const res = mainValue?.reduce((ac,cur) => ac+cur?.value, '')
 
-        setResult(eval(res))
+        if(!isNaN(res)){
+            setResult(eval(res))
+        }else{
+            setResult("wrong data")
+        }
+
 
     },[mainValue])
 
