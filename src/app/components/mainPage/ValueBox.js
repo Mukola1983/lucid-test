@@ -12,15 +12,17 @@ const ValueBox = ({values,optionList }) =>{
 
     const {mainValue, setMainValue} = useStore();
     const [newValue, setNewValue] = useState(null)
+    const [result, setResult] = useState(0)
 
     useEffect(()=>{
         console.log(mainValue, 'mainValue')
     },[mainValue])
 
     useEffect(()=>{
-        const res =mainValue?.reduce((ac,cur) => ac+cur?.value, '')
+        const res = mainValue?.reduce((ac,cur) => ac+cur?.value, '')
 
-        console.log(res, "HJHJH")
+        setResult(eval(res))
+
     },[mainValue])
 
     const handleLocState = (state, val) =>{
@@ -53,22 +55,34 @@ const ValueBox = ({values,optionList }) =>{
 
 
     return (
-        <div style={{display: "flex", flexWrap:"wrap", border: "1px solid grey", padding:'2px'}}>
-            {values && values?.map(el =>(
-                <div key={el.id} style={{margin: "5px"}}>
-                    <AutocompleteWithInput state={el} name={"name"}
+        <div>
+            <div style={{display: "flex", flexWrap:"wrap", border: "1px solid grey", padding:'2px'}}>
+                {values && values?.map(el =>(
+                    <div key={el.id} style={{margin: "5px"}}>
+                        <AutocompleteWithInput state={el} name={"name"}
+                                               optionName={"name"}
+                                               list={optionList}
+                                               handleState={handleLocState}  />
+                    </div>
+                ))}
+                <div style={{margin: "5px"}}>
+                    <AutocompleteWithInput state={newValue} name={"name"}
                                            optionName={"name"}
                                            list={optionList}
                                            handleState={handleLocState}  />
                 </div>
-            ))}
-            <div style={{margin: "5px"}}>
-                <AutocompleteWithInput state={newValue} name={"name"}
-                                       optionName={"name"}
-                                       list={optionList}
-                                       handleState={handleLocState}  />
+
+
+            </div>
+            <div>
+
+                <h4>
+                    Result:  {result && <span>{result}</span> }
+                </h4>
+
             </div>
         </div>
+
     )
 }
 
